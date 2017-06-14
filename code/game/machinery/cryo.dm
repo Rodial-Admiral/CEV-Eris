@@ -204,8 +204,7 @@
 
 	if(occupant)
 		var/image/pickle = image(occupant.icon, occupant.icon_state)
-		pickle.cut_overlays()
-		pickle.add_overlay(occupant.overlays)
+		pickle.overlays = occupant.overlays
 		pickle.pixel_z = 18
 		pickle.layer = 5
 		add_overlay(pickle)
