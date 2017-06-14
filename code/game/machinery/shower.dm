@@ -79,12 +79,12 @@
 		G.clean_blood()
 
 /obj/effect/shower/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(mymist)
 		del(mymist)
 
 	if(master.on)
-		overlays += image('icons/obj/watercloset.dmi', src, "water", MOB_LAYER + 1, dir)
+		add_overlay(image('icons/obj/watercloset.dmi', src, "water", MOB_LAYER + 1, dir))
 		if(master.watertemp == "freezing")
 			return
 		if(!ismist)

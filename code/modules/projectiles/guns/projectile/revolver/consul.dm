@@ -11,11 +11,11 @@
 
 /obj/item/weapon/gun/projectile/revolver/consul/proc/update_charge()
 	if(loaded.len==0)
-		overlays += "inspector_off"
+		add_overlay("inspector_off")
 	else
-		overlays += "inspector_on"
+		add_overlay("inspector_on")
 
 
 /obj/item/weapon/gun/projectile/revolver/consul/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	update_charge()

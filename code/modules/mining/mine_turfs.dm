@@ -53,7 +53,7 @@
 			var/turf/simulated/floor/asteroid/T = turf_to_check
 			T.updateMineralOverlays()
 		else if(istype(turf_to_check,/turf/space) || istype(turf_to_check,/turf/simulated/floor))
-			turf_to_check.overlays += image('icons/turf/walls.dmi', "rock_side", dir = turn(step_overlays[direction], 180))
+			turf_to_check.add_overlay(image('icons/turf/walls.dmi', "rock_side", dir = turn(step_overlays[direction], 180)))
 
 /turf/simulated/mineral/ex_act(severity)
 	switch(severity)
@@ -214,7 +214,7 @@
 				var/datum/find/F = finds[1]
 				if(F.excavation_required <= excavation_level + F.view_range)
 					archaeo_overlay = "overlay_archaeo[rand(1,3)]"
-					overlays += archaeo_overlay
+					add_overlay(archaeo_overlay)
 
 			//there's got to be a better way to do this
 			var/update_excav_overlay = 0
@@ -232,7 +232,7 @@
 			if( !(excav_overlay && excavation_level > 0) || update_excav_overlay )
 				var/excav_quadrant = round(excavation_level / 25) + 1
 				excav_overlay = "overlay_excv[excav_quadrant]_[rand(1,3)]"
-				overlays += excav_overlay
+				add_overlay(excav_overlay)
 
 			//drop some rocks
 			next_rock += P.excavation_amount * 10
@@ -302,7 +302,7 @@
 			T.overlays.Cut()
 			for(var/next_direction in step_overlays)
 				if(istype(get_step(T, step_overlays[next_direction]),/turf/simulated/mineral))
-					T.overlays += image('icons/turf/walls.dmi', "rock_side", dir = step_overlays[next_direction])
+					T.add_overlay(image('icons/turf/walls.dmi', "rock_side", dir = step_overlays[next_direction]))
 
 	if(istype(N))
 		N.overlay_detail = "asteroid[rand(0,9)]"
@@ -513,10 +513,10 @@
 	for(var/direction in step_overlays)
 
 		if(istype(get_step(src, step_overlays[direction]), /turf/space))
-			overlays += image('icons/turf/flooring/asteroid.dmi', "asteroid_edges", dir = step_overlays[direction])
+			add_overlay(image('icons/turf/flooring/asteroid.dmi', "asteroid_edges", dir = step_overlays[direction]))
 
 		if(istype(get_step(src, step_overlays[direction]), /turf/simulated/mineral))
-			overlays += image('icons/turf/walls.dmi', "rock_side", dir = step_overlays[direction])
+			add_overlay(image('icons/turf/walls.dmi', "rock_side", dir = step_overlays[direction]))
 
 	//todo cache
 	if(overlay_detail) overlays |= image(icon = 'icons/turf/flooring/decals.dmi', icon_state = overlay_detail)

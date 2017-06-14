@@ -76,7 +76,7 @@
 	if(ratio < 0.25 && ratio != 0)
 		ratio = 0.25
 	ratio = round(ratio, 0.25) * 100
-	overlays += "[ratio]_shotgun"
+	add_overlay("[ratio]_shotgun")
 
 
 /obj/item/weapon/gun/projectile/shotgun/bull/update_icon()

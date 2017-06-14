@@ -125,11 +125,11 @@
 	..()
 
 /obj/machinery/door/blast/shutters/glass/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(icon_state == "closed" && !broken)
 		var/ratio = health / maxhealth
 		ratio = Ceiling(ratio * 4) * 25
-		overlays += "damage[ratio]"
+		add_overlay("damage[ratio]")
 
 /obj/machinery/door/blast/shutters/glass/open()
 	if(operating)

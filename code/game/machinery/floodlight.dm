@@ -20,7 +20,7 @@
 	..()
 
 /obj/machinery/floodlight/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	icon_state = "flood[open ? "o" : ""][open && cell ? "b" : ""]0[on]"
 
 /obj/machinery/floodlight/process()
@@ -115,7 +115,7 @@
 		if(unlocked)
 			if(open)
 				open = 0
-				overlays = null
+				cut_overlays()
 				user << "You crowbar the battery panel in place."
 			else
 				if(unlocked)

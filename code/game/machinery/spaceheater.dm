@@ -16,21 +16,24 @@
 	cell = new(src)
 	update_icon()
 
-/obj/machinery/space_heater/update_icon()
-	overlays.Cut()
-	icon_state = "sheater[on]"
-	if(panel_open)
-		overlays  += "sheater-open"
-
 /obj/machinery/space_heater/examine(mob/user)
 	..(user)
 
-	user << "The heater is [on ? "on" : "off"] and the hatch is [panel_open ? "open" : "closed"]."
+	user << "\The [src] is [on ? "on" : "off"], and the hatch is [panel_open ? "open" : "closed"]."
 	if(panel_open)
 		user << "The power cell is [cell ? "installed" : "missing"]."
 	else
-		user << "The charge meter reads [cell ? round(cell.percent(),1) : 0]%"
-	return
+		if(cell)
+			user << "The charge meter reads [cell ? round(cell.percent(), 1) : 0]%."
+		else
+			user << "There is no power cell installed."
+
+/obj/machinery/space_heater/update_icon()
+	icon_state = "sheater[on]"
+
+	cut_overlays()
+	if(panel_open)
+		add_overlay("sheater-open")
 
 /obj/machinery/space_heater/powered()
 	if(cell && cell.charge)

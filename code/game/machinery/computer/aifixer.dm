@@ -101,7 +101,7 @@
 		return 1
 	if (href_list["fix"])
 		src.active = 1
-		src.overlays += image('icons/obj/computer.dmi', "ai-fixer-on")
+		update_icon()
 		while (src.occupant.health < 100)
 			src.occupant.adjustOxyLoss(-1)
 			src.occupant.adjustFireLoss(-1)
@@ -113,29 +113,31 @@
 				src.occupant.lying = 0
 				dead_mob_list -= src.occupant
 				living_mob_list += src.occupant
-				src.overlays -= image('icons/obj/computer.dmi', "ai-fixer-404")
-				src.overlays += image('icons/obj/computer.dmi', "ai-fixer-full")
+				src.overlays -= "ai-fixer-404"
+				src.add_overlay("ai-fixer-full")
 				src.occupant.add_ai_verbs()
 			src.updateUsrDialog()
 			sleep(10)
-		src.active = 0
-		src.overlays -= image('icons/obj/computer.dmi', "ai-fixer-on")
+		active = 0
+		update_icon()
 
-
-		src.add_fingerprint(usr)
-	src.updateUsrDialog()
-	return
+		add_fingerprint(usr)
+	updateUsrDialog()
+	update_icon()
 
 
 /obj/machinery/computer/aifixer/update_icon()
 	..()
-	if((stat & BROKEN) || (stat & NOPOWER))
+	cut_overlays()
+	if(stat & (NOPOWER|BROKEN))
 		return
-
-	if(occupant)
-		if(occupant.stat)
-			overlays += image('icons/obj/computer.dmi', "ai-fixer-404")
-		else
-			overlays += image('icons/obj/computer.dmi', "ai-fixer-full")
 	else
-		overlays += image('icons/obj/computer.dmi', "ai-fixer-empty")
+		if(active)
+			add_overlay("ai-fixer-on")
+		if(occupant)
+			if(occupant.stat)
+				add_overlay("ai-fixer-404")
+			else
+				add_overlay("ai-fixer-full")
+		else
+			add_overlay("ai-fixer-empty")

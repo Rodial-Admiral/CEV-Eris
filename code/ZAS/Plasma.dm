@@ -43,15 +43,18 @@ obj/var/contaminated = 0
 
 /obj/item/proc/can_contaminate()
 	//Clothing and backpacks can be contaminated.
-	if(flags & PLASMAGUARD) return 0
-	else if(istype(src,/obj/item/weapon/storage/backpack)) return 0 //Cannot be washed :(
-	else if(istype(src,/obj/item/clothing)) return 1
+	if(flags & PLASMAGUARD)
+		return 0
+	else if(istype(src,/obj/item/weapon/storage/backpack))
+		return 0 //Cannot be washed :(
+	else if(istype(src,/obj/item/clothing))
+		return 1
 
 /obj/item/proc/contaminate()
 	//Do a contamination overlay? Temporary measure to keep contamination less deadly than it was.
 	if(!contaminated)
 		contaminated = 1
-		overlays += contamination_overlay
+		add_overlay(contamination_overlay)
 
 /obj/item/proc/decontaminate()
 	contaminated = 0

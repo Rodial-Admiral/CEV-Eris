@@ -246,7 +246,7 @@
 	if(layer != MOB_LAYER)
 		overlay_layer=TURF_LAYER+0.2
 
-	overlays += image(icon,"glow-[icon_state]",overlay_layer)
+	add_overlay(image(icon,"glow-[icon_state]",overlay_layer))
 	set_light(2, -2, l_color = "#FFFFFF")
 
 ////////////////HUD//////////////////////

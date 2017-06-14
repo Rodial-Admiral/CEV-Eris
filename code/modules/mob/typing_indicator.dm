@@ -21,7 +21,7 @@ mob/var/obj/effect/decal/typing_indicator
 		else
 			if(state)
 				if(!typing)
-					overlays += typing_indicator
+					add_overlay(typing_indicator)
 					typing = 1
 			else
 				if(typing)

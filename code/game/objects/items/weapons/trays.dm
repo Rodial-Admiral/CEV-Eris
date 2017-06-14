@@ -186,9 +186,9 @@
 			if(calc_carry() + add >= max_carry)
 				break
 
-			I.loc = src
+			I.forceMove(src)
 			carrying.Add(I)
-			overlays += image("icon" = I.icon, "icon_state" = I.icon_state, "layer" = 30 + I.layer)
+			add_overlay(image(I.icon, I.icon_state, "layer" = 30 + I.layer))
 
 /obj/item/weapon/tray/dropped(mob/user)
 

@@ -148,9 +148,9 @@ var/list/mob_hat_cache = list()
 
 	overlays.Cut()
 	if(stat == 0)
-		overlays += "eyes-[icon_state]"
+		add_overlay("eyes-[icon_state]")
 	else
-		overlays -= "eyes"
+		overlays -= "eyes-[icon_state]"
 	if(hat) // Let the drones wear hats.
 		overlays |= get_hat_icon(hat, hat_x_offset, hat_y_offset)
 

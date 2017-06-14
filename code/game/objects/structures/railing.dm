@@ -109,43 +109,33 @@
 				R.update_icon(0)
 
 
-/*	for(var/obj/structure/railing/R in get_step(src, src.dir))
-		if ((R.dir == Lturn) && R.anchored)//Проверка левой стороны
-			src.LeftSide[3] = 1
-		if ((R.dir == Rturn) && R.anchored)//Проверка правой стороны
-			src.RightSide[3] = 1*/
-	//check <<"check: [check]"
-	//world << "dir = [src.dir]"
-	//world << "railing[LeftSide[1]][LeftSide[2]][LeftSide[3]]-[RightSide[1]][RightSide[2]][RightSide[3]]"
-
 /obj/structure/railing/update_icon(var/UpdateNeighgors = 1)
 	NeighborsCheck(UpdateNeighgors)
-	//icon_state = "railing[LeftSide[1]][LeftSide[2]][LeftSide[3]]-[RightSide[1]][RightSide[2]][RightSide[3]]"
-	overlays.Cut()
+	cut_overlays()
 	if (!check || !anchored)//|| !anchored
 		icon_state = "railing0"
 	else
 		icon_state = "railing1"
 		//левая сторона
 		if (check & 32)
-			overlays += image ('icons/obj/railing.dmi', src, "corneroverlay")
+			add_overlay(image('icons/obj/railing.dmi', src, "corneroverlay"))
 			//world << "32 check"
 		if ((check & 16) || !(check & 32) || (check & 64))
-			overlays += image ('icons/obj/railing.dmi', src, "frontoverlay_l")
+			add_overlay(image('icons/obj/railing.dmi', src, "frontoverlay_l"))
 			//world << "16 check"
 		if (!(check & 2) || (check & 1) || (check & 4))
-			overlays += image ('icons/obj/railing.dmi', src, "frontoverlay_r")
+			add_overlay(image('icons/obj/railing.dmi', src, "frontoverlay_r"))
 			//world << "no 4 or 2 check"
 			if(check & 4)
 				switch (src.dir)
 					if (NORTH)
-						overlays += image ('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_x = 32)
+						add_overlay(image('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_x = 32))
 					if (SOUTH)
-						overlays += image ('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_x = -32)
+						add_overlay(image('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_x = -32))
 					if (EAST)
-						overlays += image ('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_y = -32)
+						add_overlay(image('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_y = -32))
 					if (WEST)
-						overlays += image ('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_y = 32)
+						add_overlay(image('icons/obj/railing.dmi', src, "mcorneroverlay", pixel_y = 32))
 
 
 //obj/structure/railing/proc/NeighborsCheck2()

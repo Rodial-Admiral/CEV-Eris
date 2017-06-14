@@ -103,7 +103,7 @@
 				return
 		playsound(src.loc, "sparks", 50, 1)
 		user << "Done!"
-		src.locked = 0
+		locked = 0
 		update_icon()
 	else
 		togglelock(user)
@@ -124,12 +124,12 @@
 			visible_message("<span class='warning'>\The [src] sparks and breaks open!</span>", "You hear a faint electrical spark.")
 		return 1
 
-/obj/structure/closet/secure_closet/attack_hand(mob/user as mob)
-	src.add_fingerprint(user)
-	if(src.locked)
-		src.togglelock(user)
+/obj/structure/closet/secure_closet/attack_hand(mob/user)
+	add_fingerprint(user)
+	if(locked)
+		togglelock(user)
 	else
-		src.toggle(user)
+		toggle(user)
 
 /obj/structure/closet/secure_closet/verb/verb_togglelock()
 	set src in oview(1) // One square distance
@@ -156,7 +156,7 @@
 		else
 			icon_state = icon_closed
 		if(welded)
-			overlays += "welded"
+			add_overlay("welded")
 	else
 		icon_state = icon_opened
 

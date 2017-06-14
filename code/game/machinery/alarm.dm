@@ -875,32 +875,29 @@ FIRE ALARM
 	desc = "<i>\"Pull this in case of emergency\"</i>. Thus, keep pulling it forever."
 	icon = 'icons/obj/monitors.dmi'
 	icon_state = "fire0"
-	var/detecting = 1.0
-	var/working = 1.0
-	var/time = 10.0
-	var/timing = 0.0
-	var/lockdownbyai = 0
-	anchored = 1.0
+	anchored = 1
 	use_power = 1
 	idle_power_usage = 2
 	active_power_usage = 6
 	power_channel = ENVIRON
 	var/last_process = 0
-	var/wiresexposed = 0
-	var/buildstage = 2 // 2 = complete, 1 = no wires,  0 = circuit gone
+	var/detecting = 1
+	var/working = 1
+	var/time = 10.0
+	var/timing = 0.0
+	var/lockdownbyai = 0
+	var/buildstage = 2 // 2 = complete, 1 = no wires, 0 = circuit gone
 	var/seclevel
 
-/obj/machinery/firealarm/update_icon()
-	overlays.Cut()
+/obj/machinery/firealarm/power_change()
+	..()
+	update_icon()
 
-	if(wiresexposed)
-		switch(buildstage)
-			if(2)
-				icon_state="fire_b2"
-			if(1)
-				icon_state="fire_b1"
-			if(0)
-				icon_state="fire_b0"
+/obj/machinery/firealarm/update_icon()
+	cut_overlays()
+
+	if(panel_open)
+		icon_state = "fire_b[buildstage]"
 		set_light(0)
 		return
 
@@ -918,12 +915,16 @@ FIRE ALARM
 		else
 			icon_state = "fire0"
 			switch(seclevel)
-				if("green")	set_light(l_range = 1.5, l_power = 0.2, l_color = COLOR_LIME)
-				if("blue")	set_light(l_range = 1.5, l_power = 0.2, l_color = "#1024A9")
-				if("red")	set_light(l_range = 1.5, l_power = 0.5, l_color = COLOR_RED)
-				if("delta")	set_light(l_range = 1.5, l_power = 0.5, l_color = "#FF6633")
+				if("green")
+					set_light(l_range = 1.5, l_power = 0.2, l_color = COLOR_LIME)
+				if("blue")
+					set_light(l_range = 1.5, l_power = 0.2, l_color = "#1024A9")
+				if("red")
+					set_light(l_range = 1.5, l_power = 0.5, l_color = COLOR_RED)
+				if("delta")
+					set_light(l_range = 1.5, l_power = 0.5, l_color = "#FF6633")
 
-		src.overlays += image('icons/obj/monitors.dmi', "overlay_[seclevel]")
+		add_overlay(image('icons/obj/monitors.dmi', "overlay_[seclevel]"))
 
 /obj/machinery/firealarm/fire_act(datum/gas_mixture/air, temperature, volume)
 	if(src.detecting)
@@ -942,62 +943,88 @@ FIRE ALARM
 		alarm(rand(30/severity, 60/severity))
 	..()
 
-/obj/machinery/firealarm/attackby(obj/item/W as obj, mob/user as mob)
-	src.add_fingerprint(user)
+/obj/machinery/firealarm/attackby(obj/item/W, mob/user, params)
+	add_fingerprint(user)
 
-	if (istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
-		var/sound = wiresexposed ? 'sound/machines/Custom_screwdriveropen.ogg' : 'sound/machines/Custom_screwdriverclose.ogg'
+	if(istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
+		var/sound = panel_open ? 'sound/machines/Custom_screwdriveropen.ogg' : 'sound/machines/Custom_screwdriverclose.ogg'
 		playsound(src.loc, sound, 100, 1)
-		wiresexposed = !wiresexposed
+		panel_open = !panel_open
+		user << "<span class='notice'>The wires have been [panel_open ? "exposed" : "unexposed"].</span>"
 		update_icon()
 		return
 
-	if(wiresexposed)
+	if(panel_open)
 		switch(buildstage)
 			if(2)
-				if (istype(W, /obj/item/device/multitool))
-					src.detecting = !( src.detecting )
+				if(istype(W, /obj/item/device/multitool))
+					detecting = !detecting
 					if (src.detecting)
-						user.visible_message("<span class='notice'>\The [user] has reconnected [src]'s detecting unit!</span>", "<span class='notice'>You have reconnected [src]'s detecting unit.</span>")
+						user.visible_message(
+							"<span class='notice'>\The [user] has reconnected [src]'s detecting unit!</span>",
+							"<span class='notice'>You reconnect [src]'s detecting unit.</span>"
+						)
 					else
-						user.visible_message("<span class='notice'>\The [user] has disconnected [src]'s detecting unit!</span>", "<span class='notice'>You have disconnected [src]'s detecting unit.</span>")
+						user.visible_message(
+							"<span class='notice'>\The [user] has disconnected [src]'s detecting unit!</span>",
+							"<span class='notice'>You disconnect [src]'s detecting unit.</span>"
+						)
+					return
+
 				else if (istype(W, /obj/item/weapon/wirecutters))
-					user.visible_message("<span class='notice'>\The [user] has cut the wires inside \the [src]!</span>", "<span class='notice'>You have cut the wires inside \the [src].</span>")
-					new/obj/item/stack/cable_coil(get_turf(src), 5)
-					playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
 					buildstage = 1
+					playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
+					new /obj/item/stack/cable_coil(user.loc, 5)
+					user.visible_message(
+						"<span class='notice'>\The [user] has cut the wires inside \the [src]!</span>",
+						"<span class='notice'>You cut the wires from \the [src].</span>"
+					)
 					update_icon()
+					return
 			if(1)
 				if(istype(W, /obj/item/stack/cable_coil))
 					var/obj/item/stack/cable_coil/C = W
 					if (C.use(5))
 						user << "<span class='notice'>You wire \the [src].</span>"
 						buildstage = 2
-						return
-					else
-						user << "<span class='warning'>You need 5 pieces of cable to wire \the [src].</span>"
-						return
-				else if(istype(W, /obj/item/weapon/crowbar))
-					user << "You pry out the circuit!"
-					playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
-					spawn(20)
-						var/obj/item/weapon/firealarm_electronics/circuit = new /obj/item/weapon/firealarm_electronics()
-						circuit.loc = user.loc
-						buildstage = 0
 						update_icon()
+					else
+						user << "<span class='warning'>You need more cable for this!</span>"
+					return
+
+				else if(istype(W, /obj/item/weapon/crowbar))
+					playsound(src.loc, 'sound/items/Crowbar.ogg', 50, 1)
+					user.visible_message(
+						"[user.name] removes the electronics from [src.name].",
+						"<span class='notice'>You start prying out the circuit...</span>"
+					)
+					if(do_after(user, 20, src))
+						if(buildstage == 1)
+							if(stat & BROKEN)
+								user << "<span class='notice'>You remove the destroyed circuit.</span>"
+							else
+								user << "<span class='notice'>You pry out the circuit.</span>"
+								new /obj/item/weapon/firealarm_electronics(user.loc)
+							buildstage = 0
+							update_icon()
+					return
 			if(0)
 				if(istype(W, /obj/item/weapon/firealarm_electronics))
-					user << "You insert the circuit!"
+					user << "<span class='notice'>You insert the circuit.</span>"
 					qdel(W)
 					buildstage = 1
 					update_icon()
+					return
 
 				else if(istype(W, /obj/item/weapon/wrench))
-					user << "You remove the fire alarm assembly from the wall!"
-					new /obj/item/frame/fire_alarm(get_turf(user))
+					user.visible_message(
+						"[user] removes the fire alarm assembly from the wall.",
+						"<span class='notice'>You remove the fire alarm assembly from the wall.</span>"
+					)
+					new /obj/item/frame/fire_alarm(loc)
 					playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 					qdel(src)
-		return
+					return
 
 	src.alarm()
 	return
@@ -1022,12 +1049,7 @@ FIRE ALARM
 
 	return
 
-/obj/machinery/firealarm/power_change()
-	..()
-	spawn(rand(0,15))
-		update_icon()
-
-/obj/machinery/firealarm/attack_hand(mob/user as mob)
+/obj/machinery/firealarm/attack_hand(mob/user)
 	if(user.stat || stat & (NOPOWER|BROKEN))
 		return
 
@@ -1038,7 +1060,7 @@ FIRE ALARM
 	var/area/A = src.loc
 	var/d1
 	var/d2
-	if (istype(user, /mob/living/carbon/human) || istype(user, /mob/living/silicon))
+	if (ishuman(user) || istype(user, /mob/living/silicon))
 		A = A.loc
 
 		if (A.fire)
@@ -1135,7 +1157,7 @@ FIRE ALARM
 
 	if(building)
 		buildstage = 0
-		wiresexposed = 1
+		panel_open = 1
 		pixel_x = (dir & 3)? 0 : (dir == 4 ? -24 : 24)
 		pixel_y = (dir & 3)? (dir ==1 ? -24 : 24) : 0
 

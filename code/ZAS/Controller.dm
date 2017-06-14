@@ -314,7 +314,7 @@ Total Unsimulated Turfs: [world.maxx*world.maxy*world.maxz - simulated_turf_coun
 	if(T.needs_air_update) return
 	tiles_to_update |= T
 	#ifdef ZASDBG
-	T.overlays += mark
+	T.add_overlay(mark)
 	#endif
 	T.needs_air_update = 1
 

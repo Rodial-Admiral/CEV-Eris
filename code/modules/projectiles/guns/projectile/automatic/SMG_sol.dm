@@ -25,10 +25,10 @@ obj/item/weapon/gun/projectile/automatic/SMG_sol
 	if(ratio < 0.25 && ratio != 0)
 		ratio = 0.25
 	ratio = round(ratio, 0.25) * 100
-	overlays += "smg_[ratio]"
+	add_overlay("smg_[ratio]")
 
 
 /obj/item/weapon/gun/projectile/automatic/SMG_sol/update_icon()
 	icon_state = (ammo_magazine)? "SMG-IS" : "SMG-IS-empty"
-	overlays.Cut()
+	cut_overlays()
 	update_charge()

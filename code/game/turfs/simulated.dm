@@ -24,7 +24,7 @@
 	if(!wet)
 		wet = wet_val
 		wet_overlay = image('icons/effects/water.dmi',src,"wet_floor")
-		overlays += wet_overlay
+		add_overlay(wet_overlay)
 
 	if(unwet_task)
 		unwet_task.trigger_task_in(8 SECONDS)

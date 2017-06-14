@@ -29,21 +29,23 @@
 /obj/item/weapon/gun/energy/gun/nuclear/proc/update_charge()
 	var/ratio = power_supply.charge / power_supply.maxcharge
 	ratio = round(ratio, 0.25) * 100
-	overlays += "nucgun-[ratio]"
+	add_overlay("nucgun-[ratio]")
 
 /obj/item/weapon/gun/energy/gun/nuclear/proc/update_reactor()
 	if(lightfail)
-		overlays += "nucgun-medium"
+		add_overlay("nucgun-medium")
 	else if ((power_supply.charge/power_supply.maxcharge) <= 0.5)
-		overlays += "nucgun-light"
+		add_overlay("nucgun-light")
 	else
-		overlays += "nucgun-clean"
+		add_overlay("nucgun-clean")
 
 /obj/item/weapon/gun/energy/gun/nuclear/proc/update_mode()
 	var/datum/firemode/current_mode = firemodes[sel_mode]
 	switch(current_mode.name)
-		if("stun") overlays += "nucgun-stun"
-		if("lethal") overlays += "nucgun-kill"
+		if("stun")
+			add_overlay("nucgun-stun")
+		if("lethal")
+			add_overlay("nucgun-kill")
 
 /obj/item/weapon/gun/energy/gun/nuclear/update_icon()
 	overlays.Cut()

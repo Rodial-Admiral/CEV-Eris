@@ -1,5 +1,5 @@
 /obj/machinery/robotic_fabricator
-	name = "Robotic Fabricator"
+	name = "robotic fabricator"
 	icon = 'icons/obj/robotics.dmi'
 	icon_state = "fab-idle"
 	density = 1
@@ -14,9 +14,9 @@
 /obj/machinery/robotic_fabricator/attackby(var/obj/item/O as obj, var/mob/user as mob)
 	if (istype(O, /obj/item/stack/material) && O.get_material_name() == DEFAULT_WALL_MATERIAL)
 		var/obj/item/stack/M = O
-		if (src.metal_amount < 150000.0)
+		if (src.metal_amount < 150000)
 			var/count = 0
-			src.overlays += "fab-load-metal"
+			src.add_overlay("fab-load-metal")
 			spawn(15)
 				if(M)
 					if(!M.get_amount())
@@ -121,7 +121,7 @@ Please wait until completion...</TT><BR>
 
 					src.being_built = new building(src)
 
-					src.overlays += "fab-active"
+					src.add_overlay("fab-active")
 					src.updateUsrDialog()
 
 					spawn (build_time)

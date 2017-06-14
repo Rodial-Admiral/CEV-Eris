@@ -20,13 +20,13 @@
 		//world << "nl: [newlevel]"
 
 		if(chargelevel != newlevel)
-
-			overlays.Cut()
-			overlays += "ccharger-o[newlevel]"
-
 			chargelevel = newlevel
+
+			cut_overlays()
+			add_overlay("ccharger-o[newlevel]")
+
 	else
-		overlays.Cut()
+		cut_overlays()
 
 /obj/machinery/cell_charger/examine(mob/user)
 	if(!..(user, 5))

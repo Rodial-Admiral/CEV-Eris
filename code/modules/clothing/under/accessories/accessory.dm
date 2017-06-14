@@ -46,7 +46,7 @@
 		return
 	has_suit = S
 	loc = has_suit
-	has_suit.overlays += get_inv_overlay()
+	has_suit.add_overlay(get_inv_overlay())
 
 	user << "<span class='notice'>You attach \the [src] to \the [has_suit].</span>"
 	src.add_fingerprint(user)

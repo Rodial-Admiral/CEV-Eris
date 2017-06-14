@@ -797,7 +797,7 @@
 					I = overlays_cache[9]
 				if(-INFINITY to -95)
 					I = overlays_cache[10]
-			damageoverlay.overlays += I
+			damageoverlay.add_overlay(I)
 	else
 		//Oxygen damage overlay
 		if(oxyloss)
@@ -817,7 +817,7 @@
 					I = overlays_cache[16]
 				if(45 to INFINITY)
 					I = overlays_cache[17]
-			damageoverlay.overlays += I
+			damageoverlay.add_overlay(I)
 
 		//Fire and Brute damage overlay (BSSR)
 		var/hurtdamage = src.getBruteLoss() + src.getFireLoss() + damageoverlaytemp
@@ -837,7 +837,7 @@
 					I = overlays_cache[22]
 				if(85 to INFINITY)
 					I = overlays_cache[23]
-			damageoverlay.overlays += I*/
+			damageoverlay.add_overlay(I)*/
 
 /*		if(healths  && stat != DEAD) // They are dead, let death() handle their hud update on this.
 			if (analgesic > 100)

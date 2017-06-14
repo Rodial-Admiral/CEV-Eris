@@ -22,9 +22,8 @@
 	///Chemistry.
 	var/datum/reagents/reagents = null
 
-	//var/chem_is_open_container = 0
-	// replaced by OPENCONTAINER flags and atom/proc/is_open_container()
-	///Chemistry.
+	//overlays that should remain on top and not normally be removed, like c4.
+	var/list/priority_overlays
 
 	//Detective Work, used for the duplicate data points kept in the scanners
 	var/list/original_atom

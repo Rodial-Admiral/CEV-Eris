@@ -78,7 +78,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -91,9 +91,8 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "ripley0"
 		const_holder.density = 1
-		const_holder.overlays.len = 0
-		spawn()
-			qdel(src)
+		const_holder.cut_overlays()
+		qdel(src)
 		return
 
 
@@ -284,7 +283,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -297,8 +296,7 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "gygax0"
 		const_holder.density = 1
-		spawn()
-			qdel(src)
+		qdel(src)
 		return
 
 
@@ -561,8 +559,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
-		user.drop_item()
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -575,8 +572,7 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "fireripley0"
 		const_holder.density = 1
-		spawn()
-			qdel(src)
+		qdel(src)
 		return
 
 
@@ -782,7 +778,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -795,8 +791,7 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "durand0"
 		const_holder.density = 1
-		spawn()
-			qdel(src)
+		qdel(src)
 		return
 
 /datum/construction/reversible/mecha/durand
@@ -1064,7 +1059,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -1075,8 +1070,7 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "phazon0"
 		const_holder.density = 1
-		spawn()
-			qdel(src)
+		qdel(src)
 		return
 
 
@@ -1390,7 +1384,7 @@
 
 	custom_action(step, atom/used_atom, mob/user)
 		user.visible_message("[user] has connected [used_atom] to [holder].", "You connect [used_atom] to [holder]")
-		holder.overlays += used_atom.icon_state+"+o"
+		holder.add_overlay(used_atom.icon_state+"+o")
 		qdel(used_atom)
 		return 1
 
@@ -1403,8 +1397,7 @@
 		const_holder.icon = 'icons/mecha/mech_construction.dmi'
 		const_holder.icon_state = "odysseus0"
 		const_holder.density = 1
-		spawn()
-			qdel(src)
+		qdel(src)
 		return
 
 

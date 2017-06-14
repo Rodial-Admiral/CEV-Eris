@@ -609,13 +609,14 @@
 	Destroy()
 		qdel(pr_repair_droid)
 		pr_repair_droid = null
+		if(chassis)
+			chassis.overlays -= droid_overlay
 		..()
 
 	attach(obj/mecha/M as obj)
 		..()
 		droid_overlay = new(src.icon, icon_state = "repair_droid")
-		M.overlays += droid_overlay
-		return
+		M.add_overlay(droid_overlay)
 
 	destroy()
 		chassis.overlays -= droid_overlay
@@ -644,7 +645,7 @@
 				droid_overlay = new(src.icon, icon_state = "repair_droid")
 				log_message("Deactivated.")
 				set_ready_state(1)
-			chassis.overlays += droid_overlay
+			chassis.add_overlay(droid_overlay)
 			send_byjax(chassis.occupant,"exosuit.browser","\ref[src]",src.get_equip_info())
 		return
 

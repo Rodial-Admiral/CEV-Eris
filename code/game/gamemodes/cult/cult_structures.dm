@@ -40,7 +40,7 @@
 	if(!isbroken)
 		if(prob(1+ damage * 5))
 			user.visible_message(
-				"<span class='danger'>[user] smashed the pylon!</span>", 
+				"<span class='danger'>[user] smashed the pylon!</span>",
 				"<span class='warning'>You hit the pylon, and its crystal breaks apart!</span>",
 				"You hear a tinkle of crystal shards"
 				)
@@ -150,7 +150,7 @@
 		M.transforming = 1
 		M.canmove = 0
 		M.icon = null
-		M.overlays.len = 0
+		M.cut_overlays()
 		M.invisibility = 101
 
 		if(istype(M, /mob/living/silicon/robot))

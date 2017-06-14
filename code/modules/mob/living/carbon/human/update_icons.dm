@@ -150,7 +150,7 @@ Please contact me on #coderbus IRC. ~Carn x
 	if (icon_update)
 		icon = stand_icon
 		for(var/image/I in overlays_standing)
-			overlays += I
+			add_overlay(I)
 		if(species.has_floating_eyes)
 			overlays |= species.get_eyes(src)
 
@@ -1012,8 +1012,7 @@ var/global/list/damage_icon_parts = list()
 	var/image/total = new
 	for(var/obj/item/organ/external/E in organs)
 		if(E.open)
-			var/image/I = image("icon"='icons/mob/surgery.dmi', "icon_state"="[E.name][round(E.open)]", "layer"=-SURGERY_LAYER)
-			total.overlays += I
+			total.overlays += image('icons/mob/surgery.dmi', "[E.name][round(E.open)]", "layer"=-SURGERY_LAYER)
 	overlays_standing[SURGERY_LAYER] = total
 	if(update_icons)   update_icons()
 

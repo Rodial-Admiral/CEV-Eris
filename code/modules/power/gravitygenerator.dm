@@ -81,7 +81,7 @@ var/const/GRAV_NEEDS_WRENCH = 3
 /obj/machinery/gravity_generator/main/station/initialize()
 	..()
 	setup_parts()
-	middle.overlays += "activated"
+	middle.add_overlay("activated")
 
 //
 // Generator an admin can spawn
@@ -360,7 +360,7 @@ var/const/GRAV_NEEDS_WRENCH = 3
 				if(middle)
 					middle.overlays.Cut()
 					if(overlay_state)
-						middle.overlays += overlay_state
+						middle.add_overlay(overlay_state)
 					current_overlay = overlay_state
 
 

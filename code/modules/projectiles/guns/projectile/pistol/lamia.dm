@@ -13,9 +13,9 @@
 	cocked_sound 	= 'sound/weapons/guns/interact/hpistol_cock.ogg'
 
 /obj/item/weapon/gun/projectile/lamia/update_icon()
-	overlays.Cut()
+	cut_overlays()
 	if(!ammo_magazine)
 		return
 	var/ratio = ammo_magazine.stored_ammo.len * 100 / ammo_magazine.max_ammo
 	ratio = round(ratio, 33)
-	overlays += "deagle_[ratio]"
+	add_overlay("deagle_[ratio]")

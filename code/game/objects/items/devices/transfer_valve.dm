@@ -131,13 +131,13 @@
 	icon_state = "valve"
 
 	if(tank_one)
-		overlays += "[tank_one.icon_state]"
+		add_overlay("[tank_one.icon_state]")
 	if(tank_two)
 		var/icon/J = new(icon, icon_state = "[tank_two.icon_state]")
 		J.Shift(WEST, 13)
 		underlays += J
 	if(attached_device)
-		overlays += "device"
+		add_overlay("device")
 
 /obj/item/device/transfer_valve/proc/remove_tank(obj/item/weapon/tank/T)
 	if(tank_one == T)
@@ -148,7 +148,7 @@
 		tank_two = null
 	else
 		return
-	
+
 	T.loc = get_turf(src)
 	update_icon()
 
@@ -164,18 +164,18 @@
 /obj/item/device/transfer_valve/proc/split_gases()
 	if(!valve_open)
 		return
-	
+
 	valve_open = 0
-	
+
 	if(deleted(tank_one) || deleted(tank_two))
 		return
-	
+
 	var/ratio1 = tank_one.air_contents.volume/tank_two.air_contents.volume
 	var/datum/gas_mixture/temp
 	temp = tank_two.air_contents.remove_ratio(ratio1)
 	tank_one.air_contents.merge(temp)
 	tank_two.air_contents.volume -=  tank_one.air_contents.volume
-	
+
 
 	/*
 	Exadv1: I know this isn't how it's going to work, but this was just to check

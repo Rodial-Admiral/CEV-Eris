@@ -44,7 +44,7 @@
 		field.Remove(D)
 		D.loc = null
 	..()
-	
+
 /obj/machinery/shield_gen/emag_act(var/remaining_charges, var/mob/user)
 	if(prob(75))
 		src.locked = !src.locked
@@ -237,10 +237,9 @@
 			icon_state = "generator1"
 		else
 			icon_state = "generator0"
-		overlays.Cut()
+		cut_overlays()
 		if (owned_capacitor)
-			var/I = image(icon,"capacitor_connected", dir = turn(owned_capacitor.dir, 180))
-			overlays += I
+			add_overlay(image(icon,"capacitor_connected", dir = turn(owned_capacitor.dir, 180)))
 
 //TODO MAKE THIS MULTIZ COMPATIBLE
 //grab the border tiles in a circle around this machine
